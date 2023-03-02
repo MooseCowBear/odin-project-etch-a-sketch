@@ -24,13 +24,14 @@ window.addEventListener("resize", (event) => {
 
 canvas.addEventListener("mouseover", (event) => {
     const square = event.target;
-
-    if (window.getComputedStyle(square).backgroundColor === "rgb(255, 255, 255)") {
+    const color = window.getComputedStyle(square).backgroundColor;
+    console.log("squares color", color);
+    if (color === "rgb(255, 255, 255)") {
         assignRandomColor(square);
         console.log("assigning initial color");
     }
     else {
-        darkenColorByPercent(square, 0.1);
+        adjustColorByPercent(square, color, 0.1);
         console.log("darkening color");
     }
 });
@@ -67,8 +68,10 @@ function assignRandomColor(div) {
     const b = getRandomInt(0, 255);
 
     const color = `rgb(${r}, ${g}, ${b})`;
+
+
     console.log("color to assign", color);
-    div.style.backgroundColor = color;
+    adjustColorByPercent(div, color, 0.9, false);
 
     function getRandomInt(min, max) {
         let rand = Math.floor(Math.random() * (max - min + 1) + min);
@@ -77,9 +80,7 @@ function assignRandomColor(div) {
     }
 }
 
-function darkenColorByPercent(div, percent) {
-    let rgb = window.getComputedStyle(div).backgroundColor;
-    console.log(rgb, typeof rgb);
+function adjustColorByPercent(div, rgb, percent, dark=true) {
 
 	let sep = rgb.indexOf(",") > -1 ? "," : " ";
   	rgb = rgb.substr(4).split(")")[0].split(sep); //what's wrong with this? 
@@ -131,7 +132,12 @@ function darkenColorByPercent(div, percent) {
 
 	// Calculate lightness
   	l = (cmax + cmin) / 2;
-    l -= l * percent; //subtract out percentage of lightness
+    if (dark) {
+        l -= l * percent; //subtract out percentage of lightness
+    }
+    else {
+        l += l * percent;
+    }
 
   	// Calculate saturation
   	s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
