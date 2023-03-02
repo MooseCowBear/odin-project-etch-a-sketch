@@ -22,9 +22,23 @@ window.addEventListener("resize", (event) => {
     drawSquares(numSquares, chuckClose, newDivSize); //and then redraw them
 });
 
+canvas.addEventListener("mouseover", (event) => {
+    const square = event.target;
+
+    if (window.getComputedStyle(square).backgroundColor === "rgb(255, 255, 255)") {
+        assignRandomColor(square);
+        console.log("assigning initial color");
+    }
+    else {
+        darkenColorByPercent(square, 0.1);
+        console.log("darkening color");
+    }
+});
+
 function drawSquares(numSquares, chuckClose, newDivSize) {
     for (let i = 0; i < numSquares ** 2; i ++) {
         const newDiv = document.createElement("div");
+        newDiv.classList.add("square"); //will use for finding which div to color
         newDiv.style.backgroundColor = "white"; //on first pass of mouse, we will pick the random color
         newDiv.style.width = `${newDivSize}px`;
         newDiv.style.height = `${newDivSize}px`;
@@ -48,7 +62,19 @@ function setTemplateColumns(numSquares) {
 
 //color functions 
 function assignRandomColor(div) {
-    
+    const r = getRandomInt(0, 255);
+    const g = getRandomInt(0, 255);
+    const b = getRandomInt(0, 255);
+
+    const color = `rgb(${r}, ${g}, ${b})`;
+    console.log("color to assign", color);
+    div.style.backgroundColor = color;
+
+    function getRandomInt(min, max) {
+        let rand = Math.floor(Math.random() * (max - min + 1) + min);
+        console.log(rand, "rand");
+        return rand; 
+    }
 }
 
 function darkenColorByPercent(div, percent) {
