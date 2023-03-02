@@ -53,3 +53,24 @@ a:not([class]) {
   }
 }
 /* end reset */
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+div {
+  border: 1px solid black; /* temp */
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 80vh; /* want a square */ 
+  column-gap: 0.4em;
+  margin: 5em 2em;
+}
+
+.right {
+  background-color: pink;
+  display: grid;
+  height: 80vh;
+}
