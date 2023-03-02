@@ -56,6 +56,7 @@ a:not([class]) {
 
 body {
   font-family: "Roboto", sans-serif;
+  font-size: 16px;
 }
 
 div {
@@ -64,13 +65,28 @@ div {
 
 main {
   display: grid;
-  grid-template-columns: 1fr 80vh; /* want a square */ 
+  grid-template-columns: 1fr minmax(350px, 80vh); /* want a square */ 
   column-gap: 0.4em;
   margin: 5em 2em;
 }
 
+h1 {
+  font-size: 3em;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .right {
-  background-color: pink;
-  display: grid;
-  height: 80vh;
+  display: grid; /* template set in script */
+  height: minmax(350px, 80vh);
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
