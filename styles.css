@@ -1,4 +1,9 @@
-
+:root {
+  --background: #051821;
+  --secondary: #1a4645;
+  --text: whitesmoke;  /*#fbf3f2;*/
+  --gradient: #C9D9D9;
+}
 /* reset */
 *,
 *::before,
@@ -57,17 +62,15 @@ a:not([class]) {
 body {
   font-family: "Roboto", sans-serif;
   font-size: 16px;
-}
-
-div {
-  border: 1px solid black; /* temp */
+  background: linear-gradient(var(--background), var(--secondary));
+  color: var(--text);
 }
 
 main {
   display: grid;
-  grid-template-columns: 1fr minmax(350px, 80vh); /* want a square */ 
+  grid-template-columns: 1fr minmax(350px, 90vh); /* want a square */ 
   column-gap: 0.4em;
-  margin: 5em 2em;
+  margin: 3em 2em;
 }
 
 h1 {
@@ -78,15 +81,137 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
 }
 
 .right {
   display: grid; /* template set in script */
-  height: minmax(350px, 80vh);
+  height: minmax(350px, 90vh);
+  background-color: transparent;
 }
 
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+button {
+  padding: 0.5em 1em;
+  letter-spacing: 1px;
+  background-color: var(--text);
+  border: none;
+  border-radius: 5px;
+  margin: 1em 0;
+}
+
+.fa-solid {
+  color: white;
+}
+
+.square {
+  transition: all 100ms;
+}
+
+
+/*Range Reset*/
+
+form {
+  margin-top: 1em;
+  position: relative;
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+   appearance: none;
+   background: transparent;
+   cursor: pointer;
+   width: 11rem;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+ outline: none;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+  background: linear-gradient(var(--text), var(--gradient));
+  border-radius: 0.5rem;
+  height: 0.6rem;  
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+ -webkit-appearance: none; /* Override default look */
+  appearance: none;
+  margin-top: -5px; /* Centers thumb on the track */
+
+  /*custom styles*/
+  background: linear-gradient(var(--text), var(--gradient));
+  height: 1.2rem;
+  width: 1.2rem;
+  border-radius: 50%;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {   
+ border: 1px solid var(--text);
+ outline: 3px solid var(--text);
+ outline-offset: 0.125rem; 
+}
+
+/******** Firefox styles ********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+  background: linear-gradient(var(--text), var(--gradient));
+  border-radius: 0.5rem;
+  height: 0.6rem;  
+
+  /*background-color: whitesmoke;
+  border-radius: 0.5rem;
+  height: 0.5rem;*/
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+  border: none; /*Removes extra border that FF applies*/
+  border-radius: 0; /*Removes default border-radius that FF applies*/
+
+  /*custom styles*/
+  background-color: var(--text);
+  height: 2rem;
+  width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+ border: 1px solid var(--text);
+ outline: 3px solid var(--text);
+ outline-offset: 0.125rem; 
+}
+
+/*doesn't work */
+
+form .range-value{
+	position:absolute;
+	margin-left: 14px;
+  padding: 0.1em 0.5em;
+
+	background-color: var(--text);
+  color: var(--background);
+	border-radius: 3px;
+	text-align:center;
+	line-height: 30px;
+  bottom: -4px;
+}
+
+form .range-value:before{
+	content:'';
+	position:absolute;
+	border-right:9px solid transparent;
+	border-left:9px solid transparent;
+	border-bottom:12px solid var(--text);
+	left:-10px;
+	top: 50%;
+	transform:translateY(-50%) rotate(-90deg);
 }
