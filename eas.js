@@ -90,7 +90,6 @@ function drawSquares(numSquares, chuckClose) {
             if (newDivSize > 20) {
                 const icon = document.createElement("i");
                 icon.classList.add("fa-solid", "fa-fingerprint");
-                icon.style.fontSize = `${newDivSize}`;
                 newDiv.appendChild(icon);
             }
 
