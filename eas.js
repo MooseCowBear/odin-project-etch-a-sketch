@@ -29,31 +29,6 @@ window.addEventListener("resize", (event) => {
     resizeSquares();
 });
 
-/*canvas.addEventListener("mouseover", (event) => {
-    const square = event.target;
-    const color = window.getComputedStyle(square).backgroundColor;
-   
-    if (color === "rgb(255, 255, 255)") {
-        assignRandomColor(square);
-    }
-    else {
-        adjustColorByPercent(square, color, 0.1);
-    }
-});
-
-//for mobile  
-canvas.addEventListener("touchstart", (event) => {
-    const square = event.target;
-    const color = window.getComputedStyle(square).backgroundColor;
-   
-    if (color === "rgb(255, 255, 255)") {
-        assignRandomColor(square);
-    }
-    else {
-        adjustColorByPercent(square, color, 0.1);
-    }
-});*/
-
 canvas.addEventListener("pointerover", (event) => {
     const square = event.target;
     const color = window.getComputedStyle(square).backgroundColor;
