@@ -1,13 +1,35 @@
 let numSquares = 16; 
 const canvas = document.getElementById("canvas");
 let chuckClose = true;
+
+const notAFanLink = document.querySelector("a");
+
+notAFanLink.addEventListener("click", () => {
+    console.log("switch views");
+    chuckClose = !chuckClose;
+    console.log("CHUCK BOOL", chuckClose);
+
+    if (!chuckClose) { //also need to redraw! also on change back!!!
+        switchFromChuck();
+    }
+    else {
+        switchToChuck();
+    }
+
+    canvas.replaceChildren();
+    const canvasDimension = canvas.clientWidth;
+    const newDivSize = Math.floor(canvasDimension/numSquares);
+    drawSquares(numSquares, chuckClose, newDivSize);
+});
+
 if (!chuckClose) {
     canvas.style.backgroundColor = "white";
     const heading = document.querySelector("h1");
     heading.innerText = "Etch-A-Sketch";
+    notAFanLink.innerText = "Take me to Chuck";
 }
 
-window.addEventListener("load", (event) => {
+window.addEventListener("load", (event) => { //does this need to be in a load event?
     console.log("page is fully loaded"); //where we will draw the divs inside right div
     const canvasDimension = canvas.clientWidth;
     const newDivSize = Math.floor(canvasDimension/numSquares);
@@ -174,3 +196,18 @@ function getCurrentColors() {
     }
     return colors
 }
+
+function switchToChuck() {
+    canvas.style.backgroundColor = "transparent";
+    const heading = document.querySelector("h1");
+    heading.innerText = "The Unofficial Chuck Close Etch-A-Sketch";
+    notAFanLink.innerText = "Not a fan?";
+}
+
+function switchFromChuck() {
+    canvas.style.backgroundColor = "white";
+    const heading = document.querySelector("h1");
+    heading.innerText = "Etch-A-Sketch";
+    notAFanLink.innerText = "Take me to Chuck";
+}
+
