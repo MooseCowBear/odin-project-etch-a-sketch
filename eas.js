@@ -41,7 +41,18 @@ canvas.addEventListener("mouseover", (event) => {
     }
 });
 
-//for mobile -- 
+//for mobile  
+canvas.addEventListener("touchstart", (event) => {
+    const square = event.target;
+    const color = window.getComputedStyle(square).backgroundColor;
+   
+    if (color === "rgb(255, 255, 255)") {
+        assignRandomColor(square);
+    }
+    else {
+        adjustColorByPercent(square, color, 0.1);
+    }
+});
 
 const reset = document.querySelector("button"); 
 reset.addEventListener("click", (event) => {
