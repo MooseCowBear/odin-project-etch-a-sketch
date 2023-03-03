@@ -5,29 +5,20 @@ let chuckClose = true;
 const notAFanLink = document.querySelector("a");
 
 notAFanLink.addEventListener("click", () => {
-    console.log("switch views");
     chuckClose = !chuckClose;
-    console.log("CHUCK BOOL", chuckClose);
 
-    if (!chuckClose) { //also need to redraw! also on change back!!!
+    if (!chuckClose) { 
         switchFromChuck();
     }
     else {
         switchToChuck();
     }
 
-    canvas.replaceChildren();
+    canvas.replaceChildren(); //MIGHT FUNCTION-AFY this
     const canvasDimension = canvas.clientWidth;
     const newDivSize = Math.floor(canvasDimension/numSquares);
     drawSquares(numSquares, chuckClose, newDivSize);
 });
-
-if (!chuckClose) {
-    canvas.style.backgroundColor = "white";
-    const heading = document.querySelector("h1");
-    heading.innerText = "Etch-A-Sketch";
-    notAFanLink.innerText = "Take me to Chuck";
-}
 
 window.addEventListener("load", (event) => { //does this need to be in a load event?
     console.log("page is fully loaded"); //where we will draw the divs inside right div
@@ -38,7 +29,7 @@ window.addEventListener("load", (event) => { //does this need to be in a load ev
     setTemplateColumns(numSquares);
 });
 
-window.addEventListener("resize", (event) => { //change me to keep colors!
+window.addEventListener("resize", (event) => { 
     const canvasDimension = canvas.clientWidth;
    
     const newDivSize = Math.floor(canvasDimension/numSquares);
@@ -59,11 +50,29 @@ canvas.addEventListener("mouseover", (event) => {
     }
 });
 
-const reset = document.querySelector("button"); //CHANGE ME!
+const reset = document.querySelector("button"); 
 reset.addEventListener("click", (event) => {
-    console.log("clear board pressed")
-    
+
+    const canvasDimension = canvas.clientWidth;
+    const newDivSize = Math.floor(canvasDimension/numSquares);
+    canvas.replaceChildren();
+    drawSquares(numSquares, chuckClose, newDivSize);
+    setTemplateColumns(numSquares); 
 });
+
+const slider = document.querySelector(".range");
+slider.addEventListener("input", () => {
+    const display = document.querySelector(".range-value");
+    display.innerText = slider.value;
+    numSquares = slider.value;
+
+    const canvasDimension = canvas.clientWidth;
+    const newDivSize = Math.floor(canvasDimension/numSquares);
+    canvas.replaceChildren();
+    drawSquares(numSquares, chuckClose, newDivSize);
+    setTemplateColumns(numSquares);
+});
+
 
 function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=false) {
     for (let i = 0; i < numSquares ** 2; i ++) {
@@ -79,7 +88,7 @@ function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=fal
         newDiv.style.width = `${newDivSize}px`;
         newDiv.style.height = `${newDivSize}px`;
 
-        //for chuck close, we will add fingerprint icon ... but this requires knowing how big our divs will be....
+        //for chuck close, we will add fingerprint icon 
         if (chuckClose) {
             if (newDivSize > 20) {
                 const icon = document.createElement("i");
@@ -88,7 +97,7 @@ function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=fal
                 newDiv.appendChild(icon);
             }
 
-            newDiv.style.borderRadius = "50%"; //make the divs circles
+            newDiv.style.borderRadius = "50%"; //and make the divs circles
             newDiv.classList.add("center");
         }
         canvas.appendChild(newDiv);
@@ -112,7 +121,6 @@ function assignRandomColor(div) {
 
     function getRandomInt(min, max) {
         let rand = Math.floor(Math.random() * (max - min + 1) + min);
-        console.log(rand, "rand");
         return rand; 
     }
 }
@@ -121,8 +129,6 @@ function adjustColorByPercent(div, rgb, percent, dark=true) {
     //adapted from CSS Tricks
 	let sep = rgb.indexOf(",") > -1 ? "," : " ";
   	rgb = rgb.substr(4).split(")")[0].split(sep); 
-
-    console.log(rgb);
 
   	for (let R in rgb) {
     		let rPrime = rgb[R];
