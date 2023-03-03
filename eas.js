@@ -17,27 +17,23 @@ window.addEventListener("load", (event) => {
 });
 
 window.addEventListener("resize", (event) => { //change me to keep colors!
-    console.log("window has been resized...");
-
-    canvas.replaceChildren(); //remove children
     const canvasDimension = canvas.clientWidth;
-    console.log("width", canvasDimension);
+   
     const newDivSize = Math.floor(canvasDimension/numSquares);
-    
-    drawSquares(numSquares, chuckClose, newDivSize); //and then redraw them
+    const colors = getCurrentColors();
+    canvas.replaceChildren(); //remove children
+    drawSquares(numSquares, chuckClose, newDivSize, colors, true); //and then redraw them
 });
 
 canvas.addEventListener("mouseover", (event) => {
     const square = event.target;
     const color = window.getComputedStyle(square).backgroundColor;
-    console.log("squares color", color);
+   
     if (color === "rgb(255, 255, 255)") {
         assignRandomColor(square);
-        console.log("assigning initial color");
     }
     else {
         adjustColorByPercent(square, color, 0.1);
-        console.log("darkening color");
     }
 });
 
@@ -47,11 +43,17 @@ reset.addEventListener("click", (event) => {
     
 });
 
-function drawSquares(numSquares, chuckClose, newDivSize) {
+function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=false) {
     for (let i = 0; i < numSquares ** 2; i ++) {
         const newDiv = document.createElement("div");
         newDiv.classList.add("square"); //will use for finding which div to color
-        newDiv.style.backgroundColor = "white"; //on first pass of mouse, we will pick the random color
+        if (!resize) {
+            newDiv.style.backgroundColor = "white"; //on first pass of mouse, we will pick the random color
+        }
+        else {
+            newDiv.style.backgroundColor = colors[i];
+        }
+
         newDiv.style.width = `${newDivSize}px`;
         newDiv.style.height = `${newDivSize}px`;
 
@@ -84,8 +86,6 @@ function assignRandomColor(div) {
 
     const color = `rgb(${r}, ${g}, ${b})`;
 
-
-    console.log("color to assign", color);
     adjustColorByPercent(div, color, 0.9, false);
 
     function getRandomInt(min, max) {
@@ -163,4 +163,14 @@ function adjustColorByPercent(div, rgb, percent, dark=true) {
 
   	const newColor = "hsl(" + h + "," + s + "%," + l + "%)";
     div.style.backgroundColor = newColor; 
+}
+
+//for redraw upon resize
+function getCurrentColors() {
+    const children = canvas.children;
+    const colors = [];
+    for (const child of children) {
+        colors.push(window.getComputedStyle(child).backgroundColor);
+    }
+    return colors
 }
