@@ -1,7 +1,11 @@
 let numSquares = 16; 
 const canvas = document.getElementById("canvas");
-let chuckClose = false;
-
+let chuckClose = true;
+if (!chuckClose) {
+    canvas.style.backgroundColor = "white";
+    const heading = document.querySelector("h1");
+    heading.innerText = "Etch-A-Sketch";
+}
 
 window.addEventListener("load", (event) => {
     console.log("page is fully loaded"); //where we will draw the divs inside right div
@@ -12,8 +16,9 @@ window.addEventListener("load", (event) => {
     setTemplateColumns(numSquares);
 });
 
-window.addEventListener("resize", (event) => {
+window.addEventListener("resize", (event) => { //change me to keep colors!
     console.log("window has been resized...");
+
     canvas.replaceChildren(); //remove children
     const canvasDimension = canvas.clientWidth;
     console.log("width", canvasDimension);
@@ -36,6 +41,12 @@ canvas.addEventListener("mouseover", (event) => {
     }
 });
 
+const reset = document.querySelector("button"); //CHANGE ME!
+reset.addEventListener("click", (event) => {
+    console.log("clear board pressed")
+    
+});
+
 function drawSquares(numSquares, chuckClose, newDivSize) {
     for (let i = 0; i < numSquares ** 2; i ++) {
         const newDiv = document.createElement("div");
@@ -46,10 +57,14 @@ function drawSquares(numSquares, chuckClose, newDivSize) {
 
         //for chuck close, we will add fingerprint icon ... but this requires knowing how big our divs will be....
         if (chuckClose) {
-            const icon = document.createElement("i");
-            icon.classList.add("fa-solid", "fa-fingerprint");
-            icon.style.fontSize = `${newDivSize}`;
-            newDiv.appendChild(icon);
+            if (newDivSize > 20) {
+                const icon = document.createElement("i");
+                icon.classList.add("fa-solid", "fa-fingerprint");
+                icon.style.fontSize = `${newDivSize}`;
+                newDiv.appendChild(icon);
+            }
+
+            newDiv.style.borderRadius = "50%"; //make the divs circles
             newDiv.classList.add("center");
         }
         canvas.appendChild(newDiv);
@@ -81,9 +96,9 @@ function assignRandomColor(div) {
 }
 
 function adjustColorByPercent(div, rgb, percent, dark=true) {
-
+    //adapted from CSS Tricks
 	let sep = rgb.indexOf(",") > -1 ? "," : " ";
-  	rgb = rgb.substr(4).split(")")[0].split(sep); //what's wrong with this? 
+  	rgb = rgb.substr(4).split(")")[0].split(sep); 
 
     console.log(rgb);
 
