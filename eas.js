@@ -14,28 +14,19 @@ notAFanLink.addEventListener("click", () => {
         switchToChuck();
     }
 
-    canvas.replaceChildren(); //MIGHT FUNCTION-AFY this
-    const canvasDimension = canvas.clientWidth;
-    const newDivSize = Math.floor(canvasDimension/numSquares);
-    drawSquares(numSquares, chuckClose, newDivSize);
+    canvas.replaceChildren(); 
+    drawSquares(numSquares, chuckClose);
 });
 
 window.addEventListener("load", (event) => { //does this need to be in a load event?
     console.log("page is fully loaded"); //where we will draw the divs inside right div
-    const canvasDimension = canvas.clientWidth;
-    const newDivSize = Math.floor(canvasDimension/numSquares);
 
-    drawSquares(numSquares, chuckClose, newDivSize);
+    drawSquares(numSquares, chuckClose);
     setTemplateColumns(numSquares);
 });
 
-window.addEventListener("resize", (event) => { 
-    const canvasDimension = canvas.clientWidth;
-   
-    const newDivSize = Math.floor(canvasDimension/numSquares);
-    const colors = getCurrentColors();
-    canvas.replaceChildren(); //remove children
-    drawSquares(numSquares, chuckClose, newDivSize, colors, true); //and then redraw them
+window.addEventListener("resize", (event) => {  
+    resizeSquares();
 });
 
 canvas.addEventListener("mouseover", (event) => {
@@ -53,10 +44,8 @@ canvas.addEventListener("mouseover", (event) => {
 const reset = document.querySelector("button"); 
 reset.addEventListener("click", (event) => {
 
-    const canvasDimension = canvas.clientWidth;
-    const newDivSize = Math.floor(canvasDimension/numSquares);
     canvas.replaceChildren();
-    drawSquares(numSquares, chuckClose, newDivSize);
+    drawSquares(numSquares, chuckClose);
     setTemplateColumns(numSquares); 
 });
 
@@ -66,24 +55,19 @@ slider.addEventListener("input", () => {
     display.innerText = slider.value;
     numSquares = slider.value;
 
-    const canvasDimension = canvas.clientWidth;
-    const newDivSize = Math.floor(canvasDimension/numSquares);
     canvas.replaceChildren();
-    drawSquares(numSquares, chuckClose, newDivSize);
+    drawSquares(numSquares, chuckClose);
     setTemplateColumns(numSquares);
 });
 
 
-function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=false) {
+function drawSquares(numSquares, chuckClose) {
+    const newDivSize = getDivSize();
+    console.log("DIV SIZE", newDivSize);
     for (let i = 0; i < numSquares ** 2; i ++) {
         const newDiv = document.createElement("div");
-        newDiv.classList.add("square"); //will use for finding which div to color
-        if (!resize) {
-            newDiv.style.backgroundColor = "white"; //on first pass of mouse, we will pick the random color
-        }
-        else {
-            newDiv.style.backgroundColor = colors[i];
-        }
+        newDiv.classList.add("square"); 
+        newDiv.style.backgroundColor = "white"; //on first pass of mouse, we will pick the random color
 
         newDiv.style.width = `${newDivSize}px`;
         newDiv.style.height = `${newDivSize}px`;
@@ -103,6 +87,11 @@ function drawSquares(numSquares, chuckClose, newDivSize, colors=null, resize=fal
         canvas.appendChild(newDiv);
     }
 
+}
+
+function getDivSize() {
+    const canvasDimension = canvas.clientWidth;
+    return Math.floor(canvasDimension/numSquares);
 }
 
 function setTemplateColumns(numSquares) {
@@ -193,16 +182,6 @@ function adjustColorByPercent(div, rgb, percent, dark=true) {
     div.style.backgroundColor = newColor; 
 }
 
-//for redraw upon resize
-function getCurrentColors() {
-    const children = canvas.children;
-    const colors = [];
-    for (const child of children) {
-        colors.push(window.getComputedStyle(child).backgroundColor);
-    }
-    return colors
-}
-
 function switchToChuck() {
     canvas.style.backgroundColor = "transparent";
     const heading = document.querySelector("h1");
@@ -217,3 +196,11 @@ function switchFromChuck() {
     notAFanLink.innerText = "Take me to Chuck";
 }
 
+function resizeSquares() {
+    const children = canvas.children;
+    const newDivSize = getDivSize();
+    for (const child of children) {
+        child.style.width = `${newDivSize}px`;
+        child.style.height = `${newDivSize}px`;
+    }
+}
