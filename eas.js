@@ -2,6 +2,9 @@ let numSquares = 16;
 const canvas = document.getElementById("canvas");
 let chuckClose = true;
 
+drawSquares(numSquares, chuckClose);
+setTemplateColumns(numSquares);
+
 const notAFanLink = document.querySelector("a");
 
 notAFanLink.addEventListener("click", () => {
@@ -16,13 +19,6 @@ notAFanLink.addEventListener("click", () => {
 
     canvas.replaceChildren(); 
     drawSquares(numSquares, chuckClose);
-});
-
-window.addEventListener("load", (event) => { //does this need to be in a load event?
-    console.log("page is fully loaded"); //where we will draw the divs inside right div
-
-    drawSquares(numSquares, chuckClose);
-    setTemplateColumns(numSquares);
 });
 
 window.addEventListener("resize", (event) => {  
@@ -113,7 +109,7 @@ function assignRandomColor(div) {
     }
 }
 
-function adjustColorByPercent(div, rgb, percent, dark=true) {
+function adjustColorByPercent(div, rgb, factor, dark=true) {
     //adapted from CSS Tricks
 	let sep = rgb.indexOf(",") > -1 ? "," : " ";
   	rgb = rgb.substr(4).split(")")[0].split(sep); 
@@ -164,10 +160,10 @@ function adjustColorByPercent(div, rgb, percent, dark=true) {
 	// Calculate lightness
   	l = (cmax + cmin) / 2;
     if (dark) {
-        l -= l * percent; //subtract out percentage of lightness
+        l -= l * factor; //subtract out factor of lightness
     }
     else {
-        l += l * percent;
+        l += l * factor; //or add it
     }
 
   	// Calculate saturation
