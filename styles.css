@@ -82,6 +82,7 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+  min-width: 15em;
 }
 
 .right {
