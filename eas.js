@@ -41,6 +41,8 @@ canvas.addEventListener("mouseover", (event) => {
     }
 });
 
+//for mobile -- 
+
 const reset = document.querySelector("button"); 
 reset.addEventListener("click", (event) => {
 
