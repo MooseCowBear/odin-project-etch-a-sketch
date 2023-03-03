@@ -42,7 +42,7 @@ canvas.addEventListener("mouseover", (event) => {
 });
 
 //for mobile  
-canvas.addEventListener("touchstart", (event) => {
+canvas.addEventListener("ontouchstart", (event) => {
     const square = event.target;
     const color = window.getComputedStyle(square).backgroundColor;
    
