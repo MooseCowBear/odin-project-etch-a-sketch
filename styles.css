@@ -87,7 +87,8 @@ h1 {
 
 .right {
   display: grid; /* template set in script */
-  /*min-height: minmax(350px, 90vh);*/
+  min-height: 300px;
+  max-height: 90vh;
   background-color: transparent;
 }
 
@@ -124,8 +125,7 @@ a {
   transition: all 100ms;
 }
 
-/*Range Reset*/
-
+/* styling for range input, form, span to report the value of input */
 form {
   margin-top: 1em;
   position: relative;
@@ -139,26 +139,20 @@ input[type="range"] {
    width: 11rem;
 }
 
-/* Removes default focus */
 input[type="range"]:focus {
  outline: none;
 }
 
-/***** Chrome, Safari, Opera and Edge Chromium styles *****/
-/* slider track */
 input[type="range"]::-webkit-slider-runnable-track {
   background: linear-gradient(var(--text), var(--gradient));
   border-radius: 0.5rem;
   height: 0.6rem;  
 }
 
-/* slider thumb */
 input[type="range"]::-webkit-slider-thumb {
- -webkit-appearance: none; /* Override default look */
+ -webkit-appearance: none; 
   appearance: none;
-  margin-top: -5px; /* Centers thumb on the track */
-
-  /*custom styles*/
+  margin-top: -5px; 
   background: linear-gradient(var(--text), var(--gradient));
   height: 1.2rem;
   width: 1.2rem;
@@ -171,38 +165,27 @@ input[type="range"]:focus::-webkit-slider-thumb {
  outline-offset: 0.125rem; 
 }
 
-/******** Firefox styles ********/
-/* slider track */
 input[type="range"]::-moz-range-track {
   background: linear-gradient(var(--text), var(--gradient));
   border-radius: 0.5rem;
   height: 0.6rem;  
-
-  /*background-color: whitesmoke;
-  border-radius: 0.5rem;
-  height: 0.5rem;*/
 }
 
 /* slider thumb */
 input[type="range"]::-moz-range-thumb {
-  border: none; /*Removes extra border that FF applies*/
-  border-radius: 0; /*Removes default border-radius that FF applies*/
-
-  /*custom styles*/
+  border: none; 
+  border-radius: 50%; 
   background-color: var(--text);
-  height: 2rem;
-  width: 1rem;
+  height: 1.2rem;
+  width: 1.2rem;
 }
 
 input[type="range"]:focus::-moz-range-thumb {
  border: 1px solid var(--text);
  outline: 3px solid var(--text);
- outline-offset: 0.125rem; 
 }
 
-/*doesn't work */
-
-form .range-value{
+form .range-value { 
 	position:absolute;
 	margin-left: 14px;
   padding: 0.1em 0.5em;
@@ -224,6 +207,12 @@ form .range-value:before{
 	left:-10px;
 	top: 50%;
 	transform:translateY(-50%) rotate(-90deg);
+}
+
+@-moz-document url-prefix() { /* position was off in ff */
+  form .range-value { 
+    bottom: 0px;
+  }
 }
 
 @media (max-width: 600px) {
